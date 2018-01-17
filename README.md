@@ -1,9 +1,13 @@
 
-# Microsoft Teams Get Started Sample in .NET/C#
+# Microsoft Teams Sample Connector in .NET/C#
 
-This app simulates connection to a project management system and allows users and teams to create, manage and search tasks. The content is randomly generated to simulate what you can do with Teams.
+This is a MVC sample task management system generated using [ASP.NET Web Application (.NET Framework)](https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/introduction/getting-started#creating-your-first-application) template. Majority of the code is related either basic MVC configuration or Task management.
 
-This .NET/C# sample only shows the Bot and Compose Extension portion of the sample.  As the Tab and Connector work is web code unrelated to the bot service, we provide a hosted version of that code for this sample, built from the project's Node.js codebase.  For more information on the Tab and Connector support in this sample, please review the [Node repository](../Node/readme.md)
+The main connector part includes following code:
+1) ConnectorControler - `Setup` & `Register` actions
+2) TaskController - `Create` & `Update` actions
+
+This app simulates task management system and allows users to create and view tasks. The content is randomly generated to simulate how notification can be sent into Microsoft Teams channel using connector.
 
 **For more information on developing apps for Microsoft Teams, please review the Microsoft Teams [developer documentation](https://msdn.microsoft.com/en-us/microsoft-teams/index).**
 
@@ -11,35 +15,49 @@ This .NET/C# sample only shows the Bot and Compose Extension portion of the samp
 The minimum prerequisites to run this sample are:
 * The latest update of Visual Studio. You can download the community version [here](http://www.visualstudio.com) for free.
 * An Office 365 account with access to Microsoft Teams, with [sideloading enabled](https://msdn.microsoft.com/en-us/microsoft-teams/setup).
-
+* Install any of the tunnelling service. These instructions assume you are using ngrok: https://ngrok.com/
 >**Note**: some features in the sample require that you [enable Public Developer Preview mode](https://msdn.microsoft.com/en-us/microsoft-teams/publicpreview) in Microsoft Teams.
 
 For more information about how to configure and test our samples, see [Sample applications for the Microsoft Teams Developer Platform](https://msdn.microsoft.com/en-us/microsoft-teams/samples).
 
-## Code Highlights
+### How to see connector working in Microsoft Teams
+1) [Upload your custom app in Microsoft Teams](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/apps/apps-upload) (Manifest file: ~\TeamsToDoAppConnector\TeamsAppPackages\manifest.json).
+2) Configure [Teams ToDo Notification](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/connectors#accessing-office-365-connectors-from-microsoft-teams) connector.
+3) Click on Connect To O365 button in connector registration page. 
+4) Once registration is successful you could see a link for Task Manager portal.
+5) Click on Create and enter the task details and Save.
+6) You will see the MessageCard in the registered Teams channel.
+7) You can try actionable buttons available on message card.
 
-### Connectors
-The sample shows a simple implementation of a Connector registration implementation, and a sample of sending a Connector Card to the registered Connector via a process triggered "externally."
+Note: with above instructions you could try out sample connector which is already deployed on azure. Please follow the instruction given below to create your own connector.
 
-To simply illustrate the Connector functionality, you can utilize the built-in Incoming Webhook connector:
-1) Select a channel in Teams you'd like to receive the messages
-2) On the channel options, select Connectors, and add the Incoming Webhook Connector
-3) Name it anything you wish, and get the resulting URI, the channel webhook URI used in the testing flow per below.
->Note that this process does not leverage the setup or registration flow in the ConnectorController.cs code.
+### Configure Connector code
+The sample shows a simple implementation of a Connector registration implementation/ It also sends a Connector Card to the registered Connector via a process triggered "externally."
 
-Alternately, you can go through the full process to register a new Connector, which will trigger the setup and registration flows in the ConnectorController.cs file:
-1) You'll need to register a new connector in the Connector Developer Portal, Follow the steps here: [Registering your connector](https://msdn.microsoft.com/en-us/microsoft-teams/connectors#registering-your-connector)
-2) Ensure you have both Teams and Groups checkboxes selected.
-3) For the Landing page for groups during registration, you'll use our sample code's setup endpoint: `https://[BASE_URI]/connector/setup`
-4) For the Redirect URL during registration, you'll use our sample code's registration endpoint:  `https://[BASE_URI]/connector/register`
-* In both steps 3 & 4, `[BASE_URI]` is the full URI for your running sample which will be the same Ngrok endpoint used for the rest of your sample, if running locally.
-5) In the Web.config file, update: `configuration.appSettings.ConnectorAppId` to use your new Connector ID, which you can retrieve via the Connector Developer Portal's Copy Code or Download Manifest buttons. Also, set the `configuration.appSettings.Base_Uri` variable to ngrok https endpoint url.
+1. Open the TeamsToDoAppConnector.sln solution with Visual Studio.
+2. In Visual Studio click the play button (should be defaulted to running the Microsoft Edge configuration) 
+3. Begin your tunnelling service to get an https endpoint. 
+* Open a new **Command Prompt** window. 
+* Change to the directory that contains the ngrok.exe application. 
+* Run the command `ngrok http [port] --host-header=localhost` (you'll need the https endpoint for the connector registration) e.g.<br>
+```
+ngrok http 5555 --host-header=localhost
+```
+* The ngrok application will fill the entire prompt window. Make note of the Forwarding address using https. This address is required in the next steps(BASE_URI). 
+* Minimize the ngrok Command Prompt window. It is no longer referenced in this lab, but it must remain running.
+4. You'll need to register a new connector in the Connector Developer Portal, Follow the steps here: [Registering your connector](https://msdn.microsoft.com/en-us/microsoft-teams/connectors#registering-your-connector)
+	1. Fill in all the basic details such as name, description etc for the new connector.
+	2. For the Landing page for groups during registration, you'll use our sample code's setup endpoint: `https://[BASE_URI]/connector/setup`
+	3. For the Redirect URL during registration, you'll use our sample code's registration endpoint:  `https://[BASE_URI]/connector/register`	
+		* In both steps 3 & 4, `[BASE_URI]` is the full URI for your running sample which will be the same Ngrok endpoint which we got from step 3.
+	4. Ensure you have both Teams and Groups checkboxes selected.
+	5. Click on Save. After successful save you could see your connector id in the brower window.
+5) In the Web.config file, update: `configuration.appSettings.ConnectorAppId` to use your new Connector ID, which you can retrieve via the Connector Developer Portal's Copy Code or Download Manifest buttons. 
+6) Also, set the `configuration.appSettings.Base_Uri` variable to ngrok https endpoint url.
 
-
-To test the Connector Card functionality:
-1) For a registered Connector:  the registration results page gives you a link for Task Manager portal.
-2) Click on Create and enter the task details and Save.
-3) You will see the MessageCard in the registered Teams channel. 
+Steps to see the connector running in Microsoft Teams:
+1) Update ConnectorAppId and BaseUrl in web.config. Update manifest.json with your new connector id. 
+2) Follow the steps given to sidelaod 
 
 ## More Information
 For more information about getting started with Teams, please review the following resources:
