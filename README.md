@@ -27,7 +27,7 @@ The minimum prerequisites to run this sample are:
 6) You will see the MessageCard in the registered Teams channel.
 7) You can try actionable buttons available on message card.
 
-Note: with above instructions you could try out sample connector which is already deployed on azure. Please follow the instruction given below to create your own connector.
+>**Note**: With above instructions you could try out sample connector which is already deployed on azure. Please follow the instruction given below to create your own connector.
 
 ### Configure Connector code
 The sample shows a simple implementation of a Connector registration implementation/ It also sends a Connector Card to the registered Connector via a process triggered "externally."
