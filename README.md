@@ -4,8 +4,8 @@
 This is a MVC sample task management system generated using [ASP.NET Web Application (.NET Framework)](https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/introduction/getting-started#creating-your-first-application) template. Majority of the code is related either basic MVC configuration or Task management.
 
 The main connector part includes following code:
-1) ConnectorControler - `Setup` & `Register` actions
-2) TaskController - `Create` & `Update` actions
+1) ConnectorController.cs - `Setup` & `Register` actions
+2) TaskController.cs - `Create` & `Update` actions
 
 This app simulates task management system and allows users to create and view tasks. The content is randomly generated to simulate how notification can be sent into Microsoft Teams channel using connector.
 
