@@ -46,7 +46,8 @@ The sample shows a simple implementation of a Connector registration implementat
 	1. Fill in all the basic details such as name, description etc for the new connector.
 	2. For the Landing page for groups during registration, you'll use our sample code's setup endpoint: `https://[BASE_URI]/connector/setup`
 	3. For the Redirect URL during registration, you'll use our sample code's registration endpoint:  `https://[BASE_URI]/connector/register`	
-		*In both steps 3 & 4, `[BASE_URI]` is the full URI for your running sample which will be the same Ngrok endpoint which we got from step 3.
+		
+		-In both steps 3 & 4, `[BASE_URI]` is the full URI for your running sample which will be the same Ngrok endpoint which we got from step 3.
 	4. Ensure you have both Teams and Groups checkboxes selected.
 	5. Click on Save. After successful save you could see your connector id in the brower window.
 4. In the Web.config file, update: `configuration.appSettings.ConnectorAppId` to use your new Connector ID, which you can retrieve via the Connector Developer Portal's Copy Code or Download Manifest buttons. 
