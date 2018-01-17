@@ -34,14 +34,14 @@ The sample shows a simple implementation of a Connector registration implementat
 
 1. Open the TeamsToDoAppConnector.sln solution with Visual Studio.
 2. Begin your tunnelling service to get an https endpoint. 
-	* Open a new **Command Prompt** window. 
-	* Change to the directory that contains the ngrok.exe application. 
-	* Run the command `ngrok http [port] --host-header=localhost` (you'll need the https endpoint for the connector registration) e.g.<br>
+	1. Open a new **Command Prompt** window. 
+	2. Change to the directory that contains the ngrok.exe application. 
+	3. Run the command `ngrok http [port] --host-header=localhost` (you'll need the https endpoint for the connector registration) e.g.<br>
 	```
 	ngrok http 5555 --host-header=localhost
 	```
-	* The ngrok application will fill the entire prompt window. Make note of the Forwarding address using https. This address is required in the next steps(BASE_URI). 
-	* Minimize the ngrok Command Prompt window. It is no longer referenced in this lab, but it must remain running.
+	5 The ngrok application will fill the entire prompt window. Make note of the Forwarding address using https. This address is required in the next steps(BASE_URI). 
+	6 Minimize the ngrok Command Prompt window. It is no longer referenced in this lab, but it must remain running.
 3. You'll need to register a new connector in the Connector Developer Portal, Follow the steps here: [Registering your connector](https://msdn.microsoft.com/en-us/microsoft-teams/connectors#registering-your-connector)
 	1. Fill in all the basic details such as name, description etc for the new connector.
 	2. For the Landing page for groups during registration, you'll use our sample code's setup endpoint: `https://[BASE_URI]/connector/setup`
